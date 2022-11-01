@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { useState } from 'react'
+import Pool from './Pool'
+import Buttons from './Buttons'
 
-function App() {
+const App = () => {
+
+  const [count,setcount] = useState(0)
+  let starttime, interval
+
+  const addWater = ()=>{
+    starttime = new Date().getTime();
+    interval = setInterval(()=>{
+      setcount(prevcount => prevcount+1)
+      if(new Date().getTime()- starttime > 8000){
+      clearInterval(interval)
+      }
+    },2000)
+  }
+  const deleteWater = ()=>{
+    starttime = new Date().getTime();
+    interval = setInterval(()=>{
+      setcount(prevcount => prevcount-1)
+      if(new Date().getTime() - starttime > 8000)
+      clearInterval(interval)
+    },2000)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App' >
+      <Buttons addWater={addWater} deleteWater={deleteWater}  />
+      <Pool count={count} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
